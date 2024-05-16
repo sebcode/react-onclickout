@@ -22,70 +22,10 @@ var ClickOutComponent = function (_React$Component) {
 
   _createClass(ClickOutComponent, [{
     key: 'componentDidMount',
-    value: function componentDidMount() {
-      var self = this;
-      var elTouchIsClick = true;
-      var documentTouchIsClick = true;
-      var el = ReactDOM.findDOMNode(this);
-
-      self.__documentTouchStarted = function (e) {
-        el.removeEventListener('click', self.__elementClicked);
-        document.removeEventListener('click', self.__documentClicked);
-      };
-
-      self.__documentTouchMoved = function (e) {
-        documentTouchIsClick = false;
-      };
-
-      self.__documentTouchEnded = function (e) {
-        if (documentTouchIsClick) self.__documentClicked(e);
-        documentTouchIsClick = true;
-      };
-
-      self.__documentClicked = function (e) {
-        if ((e.__clickedElements || []).indexOf(el) !== -1) return;
-
-        var clickOutHandler = self.onClickOut || self.props.onClickOut;
-        if (!clickOutHandler) {
-          return console.warn('onClickOut is not defined.');
-        }
-
-        clickOutHandler.call(self, e);
-      };
-
-      self.__elementTouchMoved = function (e) {
-        elTouchIsClick = false;
-      };
-
-      self.__elementTouchEnded = function (e) {
-        if (elTouchIsClick) self.__elementClicked(e);
-        elTouchIsClick = true;
-      };
-
-      self.__elementClicked = function (e) {
-        e.__clickedElements = e.__clickedElements || [];
-        e.__clickedElements.push(el);
-      };
-
-      setTimeout(function () {
-        if (self.__unmounted) return;
-        self.toggleListeners('addEventListener');
-      }, 0);
-    }
+    value: function componentDidMount() {}
   }, {
     key: 'toggleListeners',
-    value: function toggleListeners(listenerMethod) {
-      var el = ReactDOM.findDOMNode(this);
-
-      el[listenerMethod]('touchmove', this.__elementTouchMoved);
-      el[listenerMethod]('touchend', this.__elementTouchEnded);
-      el[listenerMethod]('click', this.__elementClicked);
-
-      document[listenerMethod]('touchstart', this.__documentTouchStarted);
-      document[listenerMethod]('touchmove', this.__documentTouchMoved);
-      document[listenerMethod]('touchend', this.__documentTouchEnded);
-      document[listenerMethod]('click', this.__documentClicked);
-    }
+    value: function toggleListeners(listenerMethod) {}
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
